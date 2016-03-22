@@ -102,7 +102,6 @@ DIR=$(mktemp -d) && cd ${DIR} && \
               make distclean&& \
               rm -rf ${DIR}
 
-
 # faac + http://stackoverflow.com/a/4320377
 DIR=$(mktemp -d) &&  cd ${DIR} && \
               curl -L -s http://downloads.sourceforge.net/faac/faac-${FAAC_VERSION}.tar.gz | tar zxvf - -C . && \
@@ -122,7 +121,6 @@ DIR=$(mktemp -d) && cd ${DIR} && \
               make && \
               make install&& \
               rm -rf ${DIR}
-
 
 # fdk-aac
 DIR=$(mktemp -d) && cd ${DIR} && \
@@ -154,3 +152,4 @@ DIR=$(mktemp -d) && cd ${DIR} && \
               make qt-faststart && \
               cp qt-faststart ${SRC}/bin && \
               rm -rf ${DIR}
+
