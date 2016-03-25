@@ -6,7 +6,7 @@ export MAKEFLAGS="-j$[$(nproc) + 1]"
 export SRC=/usr/local
 export PKG_CONFIG_PATH=${SRC}/lib/pkgconfig
 
-apt-get -q -y install autoconf automake build-essential g++ nasm cmake perl libssl-dev && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+apt-get -q -y install autoconf automake build-essential g++ nasm cmake perl libssl-dev git && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # yasm
 DIR=$(mktemp -d) && cd ${DIR} && \
