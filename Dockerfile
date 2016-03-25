@@ -1,27 +1,13 @@
 FROM ubuntu:14.04
-#MAINTAINER Reid Burke <me@reidburke.com>
-MAINTAINER Goran Stefkovski <gorans@gmail.com>
+MAINTAINER Reid Burke <me@reidburke.com>, Goran Stefkovski <gorans@gmail.com>, Zilong WU <zilong.wu@gmail.com>
+
+# nginx
 
 RUN apt-get -q -y update \
     && apt-get -q -y install cron logrotate make build-essential libssl-dev \
         zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
     && apt-get -q -y build-dep nginx \
     && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
-
-RUN cd /root \
-    && curl -L http://downloads.sourceforge.net/project/opencore-amr/fdk-aac/fdk-aac-0.1.4.tar.gz > fdk-aac.tgz \
-    && mkdir fdk-aac && tar xzf fdk-aac.tgz -C fdk-aac --strip 1 && cd fdk-aac \
-    && ./configure && make install
-
-RUN cd /root && curl -L -O ftp://ftp.videolan.org/pub/x264/snapshots/last_x264.tar.bz2 \
-    && mkdir x264 && tar xjf last_x264.tar.bz2 -C x264 --strip 1 && cd x264 \
-    && ./configure --enable-static && make install
-
-RUN cd /root && curl -L -O https://libav.org/releases/libav-11.4.tar.gz \
-    && mkdir libav && tar xzf libav-11.4.tar.gz -C libav --strip 1 && cd libav \
-    && ./configure --enable-gpl --enable-nonfree \
-        --enable-libfdk-aac --enable-libx264 \
-    && make install
 
 RUN groupadd nginx
 RUN useradd -m -g nginx nginx
@@ -75,6 +61,29 @@ RUN cd /root \
         --with-stream \
         --with-stream_ssl_module \
    && make install
+
+
+# ffmpeg
+
+ENV     FFMPEG_VERSION=3.0 \
+        YASM_VERSION=1.3.0   \
+        OGG_VERSION=1.3.2    \
+        VORBIS_VERSION=1.3.5 \
+        THEORA_VERSION=1.1.1 \
+        LAME_VERSION=3.99.5  \
+        OPUS_VERSION=1.1.1   \
+        FAAC_VERSION=1.28    \
+        VPX_VERSION=1.5.0    \
+        XVID_VERSION=1.3.4   \
+        FDKAAC_VERSION=0.1.4 \
+        X265_VERSION=1.9
+
+COPY    run.sh /tmp/run.sh
+
+RUN     /tmp/run.sh && ffmpeg -buildconf
+
+
+# system
 
 RUN ldconfig
 
