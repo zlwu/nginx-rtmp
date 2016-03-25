@@ -4,9 +4,9 @@ MAINTAINER Reid Burke <me@reidburke.com>, Goran Stefkovski <gorans@gmail.com>, Z
 # nginx
 
 RUN apt-get -q -y update \
-    && apt-get -q -y install cron logrotate make build-essential libssl-dev \
+    && DEBIAN_FRONTEND=noninteractive apt-get -q -y install cron logrotate make build-essential libssl-dev \
         zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
-    && apt-get -q -y build-dep nginx \
+    && DEBIAN_FRONTEND=noninteractive apt-get -q -y build-dep nginx \
     && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 RUN groupadd nginx
@@ -78,10 +78,9 @@ ENV     FFMPEG_VERSION=3.0 \
         FDKAAC_VERSION=0.1.4 \
         X265_VERSION=1.9
 
-COPY    run.sh /tmp/run.sh
+COPY    build-ffmpeg.sh /tmp/build-ffmpeg.sh
 
-RUN     /tmp/run.sh && ffmpeg -buildconf
-
+RUN     /tmp/build-ffmpeg.sh
 
 # system
 
