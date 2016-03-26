@@ -82,9 +82,9 @@ COPY    build-ffmpeg.sh /tmp/build-ffmpeg.sh
 
 RUN     /tmp/build-ffmpeg.sh
 
-# system
+RUN     ldconfig && ffmpeg -buildconf
 
-RUN ldconfig
+# system
 
 EXPOSE 80
 EXPOSE 1935
