@@ -153,8 +153,8 @@ rtmp {
             allow play 127.0.0.1;
             deny play all;
 
-            exec_push /usr/local/bin/avconv -i rtmp://localhost/pub_${PUBLISH_SECRET}/$name
-                -filter:v scale=-1:460
+            exec_push /usr/local/bin/ffmpeg -i rtmp://localhost/pub_${PUBLISH_SECRET}/$name
+                -filter:v scale=640:360
                 -c:a libfdk_aac -b:a 32k  -c:v libx264 -b:v 128k  -f flv rtmp://localhost/hls/$name_128
                 -c:a libfdk_aac -b:a 128k -c:v libx264 -b:v 512k  -f flv rtmp://localhost/hls/$name_512;
         }
